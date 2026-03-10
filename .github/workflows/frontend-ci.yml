@@ -2,7 +2,7 @@ name: Frontend CI
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - "starter/frontend/**"
 
@@ -60,7 +60,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build docker image
+      - name: Build Docker image
         run: |
           docker build \
           --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL \
