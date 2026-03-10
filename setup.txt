@@ -1,0 +1,4 @@
+https://github.com/harshacen/cd12354-Movie-Picture-Pipeline.git
+
+mkdir -p .github/workflows
+cd cd12354-Movie-Picture-Pipeline
