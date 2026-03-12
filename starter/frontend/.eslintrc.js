@@ -1,65 +1,17 @@
-name: Frontend CI
-
-on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "starter/frontend/**"
-
-  workflow_dispatch:
-
-env:
-  REACT_APP_MOVIE_API_URL: http://localhost:5000
-
-jobs:
-
-  lint:
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: starter/frontend
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - run: npm ci
-      - run: npm run lint
-
-  test:
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: starter/frontend
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - run: npm ci
-      - run: CI=true npm test
-
-  build:
-    runs-on: ubuntu-latest
-    needs: [lint, test]
-
-    defaults:
-      run:
-        working-directory: starter/frontend
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build Docker image
-        run: |
-          docker build \
-          --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL \
-          -t mp-frontend:${{ github.sha }} .
+module.exports = {
+  root: true,
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  extends: [
+  "eslint:recommended",
+  "plugin:@typescript-eslint/recommended",
+  "plugin:prettier/recommended"
+  ],
+  env: {
+  browser: true,
+  es2021: true,
+  node: true
+  },
+  rules: {}
+  };
+  
