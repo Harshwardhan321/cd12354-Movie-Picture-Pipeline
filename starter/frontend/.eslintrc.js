@@ -1,15 +1,13 @@
 module.exports = {
-  root: true,
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
   env: {
     browser: true,
+    node: true,
     es2021: true,
-    node: true
+    jest: true
+  },
+  extends: ["eslint:recommended"],
+  parserOptions: {
+    ecmaVersion: 12
   },
   rules: {}
 };

@@ -1,35 +1,27 @@
 name: Frontend Continuous Integration
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
-    paths:
-      - "starter/frontend/**"
   workflow_dispatch:
 
 jobs:
+
   lint:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: starter/frontend
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
+      - run: npm run lint
 
-      - name: Install missing prettier config
-        run: npm install eslint-config-prettier --save-dev
-
-      - name: Run lint
-        run: npm run lint
 
   test:
     runs-on: ubuntu-latest
@@ -37,22 +29,15 @@ jobs:
       run:
         working-directory: starter/frontend
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
+      - run: npm test
 
-      - name: Install missing prettier config
-        run: npm install eslint-config-prettier --save-dev
-
-      - name: Run tests
-        run: npm test
 
   build:
     runs-on: ubuntu-latest
@@ -61,8 +46,5 @@ jobs:
       run:
         working-directory: starter/frontend
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build Docker image
-        run: docker build -t mp-frontend .
+      - uses: actions/checkout@v4
+      - run: docker build -t mp-frontend .
