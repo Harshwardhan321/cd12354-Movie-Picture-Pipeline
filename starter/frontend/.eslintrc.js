@@ -1,67 +1,16 @@
-name: Frontend Continuous Integration
-
-on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "starter/frontend/**"
-  workflow_dispatch:
-
-jobs:
-
-  lint:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: starter/frontend
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('starter/frontend/package-lock.json') }}
-
-      - run: npm ci
-      - run: npm run lint
-
-
-  test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: starter/frontend
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('starter/frontend/package-lock.json') }}
-
-      - run: npm ci
-      - run: npm test
-
-
-  build:
-    runs-on: ubuntu-latest
-    needs: [lint, test]
-    defaults:
-      run:
-        working-directory: starter/frontend
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - run: docker build -t frontend .
+module.exports = {
+  root: true,
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  env: {
+    browser: true,
+    es2021: true,
+    node: true
+  },
+  rules: {}
+};
