@@ -3,7 +3,6 @@ name: Backend Continuous Integration
 on:
 push:
 branches: [ main ]
-
 workflow_dispatch:
 
 jobs:
@@ -13,22 +12,16 @@ defaults:
 run:
 working-directory: starter/backend
 steps:
-- name: Checkout code
-uses: actions/checkout@v4
+- uses: actions/checkout@v4
 
 ```
-  - name: Setup Python
-    uses: actions/setup-python@v5
+  - uses: actions/setup-python@v5
     with:
       python-version: "3.10"
 
-  - name: Install dependencies
-    run: |
-      pip install pipenv
-      pipenv install
-
-  - name: Run lint
-    run: pipenv run lint
+  - run: pip install pipenv
+  - run: pipenv install
+  - run: pipenv run lint
 ```
 
 test:
@@ -37,22 +30,16 @@ defaults:
 run:
 working-directory: starter/backend
 steps:
-- name: Checkout code
-uses: actions/checkout@v4
+- uses: actions/checkout@v4
 
 ```
-  - name: Setup Python
-    uses: actions/setup-python@v5
+  - uses: actions/setup-python@v5
     with:
       python-version: "3.10"
 
-  - name: Install dependencies
-    run: |
-      pip install pipenv
-      pipenv install
-
-  - name: Run tests
-    run: pipenv run test
+  - run: pip install pipenv
+  - run: pipenv install
+  - run: pipenv run test
 ```
 
 build:
@@ -62,10 +49,5 @@ defaults:
 run:
 working-directory: starter/backend
 steps:
-- name: Checkout code
-uses: actions/checkout@v4
-
-```
-  - name: Build Docker image
-    run: docker build -t mp-backend .
-```
+- uses: actions/checkout@v4
+- run: docker build -t mp-backend .
