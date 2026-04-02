@@ -26,24 +26,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
-      - name: Login to ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
       - name: Build Docker Image
         run: |
           docker build \
           --build-arg REACT_APP_MOVIE_API_URL=http://backend:5000 \
           -t frontend:${{ github.sha }} .
-
-      - name: Tag Image
-        run: |
-          docker tag frontend:${{ github.sha }} \
-          ${{ steps.login-ecr.outputs.registry }}/frontend:${{ github.sha }}
-
-      - name: Push Image
-        run: |
-          docker push ${{ steps.login-ecr.outputs.registry }}/frontend:${{ github.sha }}
 
       - name: Update kubeconfig
         run: |
@@ -52,5 +39,4 @@ jobs:
       - name: Deploy
         run: |
           cd k8s
-          kustomize edit set image frontend=${{ steps.login-ecr.outputs.registry }}/frontend:${{ github.sha }}
           kustomize build | kubectl apply -f -
